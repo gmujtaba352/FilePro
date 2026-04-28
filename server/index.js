@@ -16,9 +16,13 @@ const testSchema = new mongoose.Schema({
 const Test = mongoose.models.Test || mongoose.model('Test', testSchema)
 
 app.use(cors({
-  origin: "*"
+  origin: process.env.CLIENT_URL || true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
 }))
+
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use('/uploads', express.static('uploads'))
 
 const isServerAlreadyRunning = async (port) => {

@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
 const AuthContext = createContext(null)
-const API_BASE_URL = 'http://localhost:5000/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api'
 const TOKEN_KEY = 'fp_token'
 const LEGACY_TOKEN_KEY = 'token'
 const USER_KEY = 'fp_user'

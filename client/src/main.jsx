@@ -11,6 +11,7 @@ import Signup from './pages/Signup'
 import PdfToDocx from './pages/PdfToDocx'
 import PdfToJpg from './pages/PdfToJpg'
 import JpgToPdf from './pages/JpgToPdf'
+import { testBackendConnection } from './utils/api'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

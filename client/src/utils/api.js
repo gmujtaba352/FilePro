@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5000/api'
+const BASE_URL = import.meta.env.VITE_API_URL || '/api'
 
 const getToken = () => localStorage.getItem('fp_token') || localStorage.getItem('token')
 
@@ -197,4 +197,16 @@ export const getUsageInfo = async () => request('/files/usage', { method: 'GET' 
 export const api = {
   get: (path) => request(path, { method: 'GET' }),
   post: (path, body) => request(path, { method: 'POST', body: JSON.stringify(body) }),
+}
+
+// Temporary helper to verify backend connectivity in the browser console
+export const testBackendConnection = async () => {
+  const base = BASE_URL || window.location.origin
+  try {
+    const res = await fetch(base)
+    if (res.ok) console.log('Backend connected')
+    else console.warn('Backend reachable but returned', res.status)
+  } catch (err) {
+    console.error('Connection failed', err)
+  }
 }
