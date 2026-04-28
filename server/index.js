@@ -15,7 +15,9 @@ const testSchema = new mongoose.Schema({
 
 const Test = mongoose.models.Test || mongoose.model('Test', testSchema)
 
-app.use(cors())
+app.use(cors({
+  origin: "*"
+}))
 app.use(express.json())
 app.use('/uploads', express.static('uploads'))
 
