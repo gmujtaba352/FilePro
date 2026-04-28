@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { api } from '../utils/api'
+import { registerUser } from '../utils/api'
 
 const Signup = () => {
   const { login } = useAuth()
@@ -25,7 +25,7 @@ const Signup = () => {
 
     setLoading(true)
     try {
-      const data = await api.post('/auth/register', form)
+      const data = await registerUser(form)
       login(data.user, data.token)
       navigate('/dashboard')
     } catch (err) {

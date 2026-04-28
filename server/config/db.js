@@ -4,18 +4,34 @@ import { MongoMemoryServer } from 'mongodb-memory-server'
 let memoryServer
 
 const connectDB = async () => {
-  const uri = process.env.MONGO_URI
+  const primaryUri = process.env.MONGO_URI
+  const localFallbackUri = process.env.MONGO_FALLBACK_URI || 'mongodb://127.0.0.1:27017/filepro'
+  const dbName = process.env.MONGO_DB_NAME
 
-  if (!uri) {
+  if (!primaryUri) {
     throw new Error('MONGO_URI is not defined')
   }
 
   try {
-    await mongoose.connect(uri, { serverSelectionTimeoutMS: 5000 })
-    console.log('MongoDB Connected')
+    await mongoose.connect(primaryUri, {
+      serverSelectionTimeoutMS: 5000,
+      ...(dbName ? { dbName } : {}),
+    })
+    console.log('MongoDB Connected (primary URI)')
     return
   } catch (error) {
-    console.error(`MongoDB connection failed: ${error.message}`)
+    console.error(`MongoDB primary connection failed: ${error.message}`)
+  }
+
+  try {
+    await mongoose.connect(localFallbackUri, {
+      serverSelectionTimeoutMS: 5000,
+      ...(dbName ? { dbName } : {}),
+    })
+    console.log(`MongoDB Connected (local fallback: ${localFallbackUri})`)
+    return
+  } catch (error) {
+    console.error(`MongoDB local fallback failed: ${error.message}`)
   }
 
   memoryServer = await MongoMemoryServer.create()

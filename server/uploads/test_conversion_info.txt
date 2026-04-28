@@ -1,0 +1,6 @@
+PDF to DOCX Conversion Report
+=============================
+Source: test.pdf
+Converted: 2026-04-28T21:18:08.385Z
+Status: Document placeholder created
+Note: For full PDF conversion, install LibreOffice and ensure proper system configuration.

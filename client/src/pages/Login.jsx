@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { api } from '../utils/api'
+import { loginUser } from '../utils/api'
 
 const Login = () => {
   const { login } = useAuth()
@@ -20,7 +20,7 @@ const Login = () => {
     setLoading(true)
 
     try {
-      const data = await api.post('/auth/login', form)
+      const data = await loginUser(form)
       login(data.user, data.token)
       navigate('/dashboard')
     } catch (err) {

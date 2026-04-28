@@ -1,10 +1,24 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
 const AuthContext = createContext(null)
+const API_BASE_URL = 'http://localhost:5000/api'
+const TOKEN_KEY = 'fp_token'
+const LEGACY_TOKEN_KEY = 'token'
+const USER_KEY = 'fp_user'
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
-  const [token, setToken] = useState(() => localStorage.getItem('fp_token'))
+  const [user, setUser] = useState(() => {
+    const rawUser = localStorage.getItem(USER_KEY)
+    if (!rawUser) return null
+
+    try {
+      return JSON.parse(rawUser)
+    } catch {
+      localStorage.removeItem(USER_KEY)
+      return null
+    }
+  })
+  const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY) || localStorage.getItem(LEGACY_TOKEN_KEY))
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -15,7 +29,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const response = await fetch('/api/auth/me', {
+        const response = await fetch(`${API_BASE_URL}/auth/me`, {
           headers: { Authorization: `Bearer ${token}` },
         })
 
@@ -26,6 +40,7 @@ export const AuthProvider = ({ children }) => {
 
         const data = await response.json()
         setUser(data.user)
+        localStorage.setItem(USER_KEY, JSON.stringify(data.user))
       } catch {
         logout()
       } finally {
@@ -39,17 +54,23 @@ export const AuthProvider = ({ children }) => {
   const login = (userData, jwt) => {
     setUser(userData)
     setToken(jwt)
-    localStorage.setItem('fp_token', jwt)
+    localStorage.setItem(TOKEN_KEY, jwt)
+    localStorage.setItem(LEGACY_TOKEN_KEY, jwt)
+    localStorage.setItem(USER_KEY, JSON.stringify(userData))
   }
 
   const logout = () => {
     setUser(null)
     setToken(null)
-    localStorage.removeItem('fp_token')
+    localStorage.removeItem(TOKEN_KEY)
+    localStorage.removeItem(LEGACY_TOKEN_KEY)
+    localStorage.removeItem(USER_KEY)
   }
 
+  const isAuthenticated = Boolean(token)
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated, loading }}>
       {children}
     </AuthContext.Provider>
   )

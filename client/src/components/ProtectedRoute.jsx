@@ -1,18 +1,13 @@
 import { Navigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
 
 const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth()
+  const token = localStorage.getItem('token') || localStorage.getItem('fp_token')
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-950 text-white">
-        <div className="h-10 w-10 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-      </div>
-    )
+  if (!token) {
+    return <Navigate to="/login" replace />
   }
 
-  return user ? children : <Navigate to="/login" replace />
+  return children
 }
 
 export default ProtectedRoute
