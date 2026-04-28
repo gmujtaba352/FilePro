@@ -8,6 +8,9 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import PdfToDocx from './pages/PdfToDocx'
+import PdfToJpg from './pages/PdfToJpg'
+import JpgToPdf from './pages/JpgToPdf'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -25,6 +28,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               </ProtectedRoute>
             }
           />
+          <Route path="/pdf-to-docx" element={<PdfToDocx />} />
+          <Route path="/pdf-to-jpg" element={<PdfToJpg />} />
+          <Route path="/jpg-to-pdf" element={<JpgToPdf />} />
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

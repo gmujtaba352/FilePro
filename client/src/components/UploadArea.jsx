@@ -43,12 +43,12 @@ const UploadArea = ({ onFilesSelected, isLoading = false }) => {
       onDragOver={handleDrag}
       onDrop={handleDrop}
       onClick={handleClick}
-      className={`relative rounded-2xl border-2 border-dashed px-8 py-16 text-center transition cursor-pointer ${
+      className={`relative rounded-2xl border-2 border-dashed px-6 py-12 text-center transition-transform duration-200 ease-in-out ${
         dragActive
-          ? 'border-cyan-400 bg-cyan-400/10 scale-105'
+          ? 'border-cyan-400 bg-cyan-400/6 shadow-lg scale-102'
           : isLoading
-            ? 'border-slate-600 bg-slate-900/50 cursor-not-allowed'
-            : 'border-slate-600 bg-slate-900/50 hover:border-cyan-400 hover:bg-cyan-400/5'
+            ? 'border-slate-300 bg-slate-100/5 cursor-not-allowed opacity-80'
+            : 'border-slate-300 bg-white/3 hover:border-cyan-400 hover:shadow-md hover:-translate-y-0.5'
       }`}
     >
       <input
@@ -61,14 +61,10 @@ const UploadArea = ({ onFilesSelected, isLoading = false }) => {
       />
 
       <div className="pointer-events-none select-none">
-        <div className="text-4xl">📄</div>
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-white/6 text-2xl">⬆️</div>
         <h3 className="mt-3 text-lg font-semibold text-white">Drag & Drop Your File</h3>
-        <p className="mt-2 text-sm text-slate-400">
-          or click to browse from your computer
-        </p>
-        <p className="mt-3 text-xs text-slate-500">
-          Supported: PDF, DOCX, JPG, PNG, and more (Max 10MB)
-        </p>
+        <p className="mt-2 text-sm text-slate-300">or click to browse from your computer</p>
+        <p className="mt-3 text-xs text-slate-400">Supported: PDF, DOCX, JPG, PNG (Max 10MB)</p>
       </div>
     </div>
   )

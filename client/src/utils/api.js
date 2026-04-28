@@ -105,6 +105,93 @@ export const convertFile = async (file) => {
   return data
 }
 
+export const convertPdfToDocx = async (file) => {
+  const token = getToken()
+  const formData = new FormData()
+  formData.append('file', file)
+
+  let response
+  try {
+    response = await fetch(`${BASE_URL}/files/convert`, {
+      method: 'POST',
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: formData,
+    })
+  } catch {
+    throw new Error('Network error. Please check your connection and try again.')
+  }
+
+  const contentType = response.headers.get('content-type') || ''
+  const isJson = contentType.includes('application/json')
+  const data = isJson ? await response.json() : null
+
+  if (!response.ok) {
+    throw new Error(data?.error || data?.message || `Conversion failed (${response.status})`)
+  }
+
+  return data
+}
+
+export const convertPdfToJpg = async (file) => {
+  const token = getToken()
+  const formData = new FormData()
+  formData.append('file', file)
+
+  let response
+  try {
+    response = await fetch(`${BASE_URL}/files/pdf-to-jpg`, {
+      method: 'POST',
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: formData,
+    })
+  } catch {
+    throw new Error('Network error. Please check your connection and try again.')
+  }
+
+  const contentType = response.headers.get('content-type') || ''
+  const isJson = contentType.includes('application/json')
+  const data = isJson ? await response.json() : null
+
+  if (!response.ok) {
+    throw new Error(data?.error || data?.message || `Conversion failed (${response.status})`)
+  }
+
+  return data
+}
+
+export const convertJpgToPdf = async (file) => {
+  const token = getToken()
+  const formData = new FormData()
+  formData.append('file', file)
+
+  let response
+  try {
+    response = await fetch(`${BASE_URL}/files/jpg-to-pdf`, {
+      method: 'POST',
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: formData,
+    })
+  } catch {
+    throw new Error('Network error. Please check your connection and try again.')
+  }
+
+  const contentType = response.headers.get('content-type') || ''
+  const isJson = contentType.includes('application/json')
+  const data = isJson ? await response.json() : null
+
+  if (!response.ok) {
+    throw new Error(data?.error || data?.message || `Conversion failed (${response.status})`)
+  }
+
+  return data
+}
+
 export const getUsageInfo = async () => request('/files/usage', { method: 'GET' })
 
 export const api = {

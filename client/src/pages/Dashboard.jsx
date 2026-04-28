@@ -133,7 +133,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 py-8">
       {/* Navbar */}
       <div className="border-b border-slate-800/50 px-4 py-4 sm:px-6">
         <div className="mx-auto max-w-4xl">
@@ -143,7 +143,8 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <div className="flex-1 px-4 py-8 sm:px-6">
-        <div className="mx-auto max-w-4xl space-y-8">
+        <div className="mx-auto max-w-4xl">
+          <div className="rounded-3xl bg-gradient-to-br from-white/3 to-white/2 p-8 shadow-xl ring-1 ring-white/6 space-y-8">
           {/* Hidden file input */}
           <input
             ref={uploadInputRef}
@@ -233,6 +234,7 @@ const Dashboard = () => {
           />
         </div>
       </div>
+    </div>
 
       {/* Upgrade Modal */}
       {showUpgradeModal && (
